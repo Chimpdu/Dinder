@@ -1,0 +1,160 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* body, html {
+  height: 100%;
+  margin: 0;
+} */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.login-box {
+  height: 100vh; /* Use full viewport height */
+  width: 100vw; /* Use full viewport width */
+  display: flex; /* Enable flexbox for this container */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.reg-login-card {
+  height: 80%; /* Set card height to 80% of the viewport height */
+  width: 80%; /* Set card width to 80% of the viewport width */
+  max-width: 1000px; /* Optional: you can set a max-width to prevent the card from becoming too wide on large screens */
+}
+.reg-card {
+  min-height: 100vh;
+}
+
+
+.card-content {
+  margin-top: 15%; /* move form into the center */
+}
+.edit-icon:hover {
+  cursor: pointer;
+} 
+
+#friend-delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  width: 23px;
+  height: 23px;
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Add transition for transform and background-color */
+}
+
+#friend-delete-btn:hover {
+  transform: scale(1.1); /* Make the button slightly larger when hovered */
+  background-color: darkred; /* Change the background color to give feedback to the user */
+}
+/* Layout and styling for the messaging app */
+/* Main Layout */
+.message-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* User List */
+.user-list {
+  background-color: rgb(247, 143, 167);
+  color: white;
+  flex: 4;
+  min-height: 100vh;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+
+.user-cell {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.user-cell:hover {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.title {
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Message Window */
+.message-window {
+  flex: 6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-display {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.message-input {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.message-input textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.message-input button {
+  float: right;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .user-list,
+  .message-window {
+    flex: 0 0 100%;
+  }
+}
+
+/* Pagination Styles */
+.pager {
+  text-align: center;
+  padding: 10px;
+}
+
+.pager button {
+  margin: 0 5px;
+}
+.message {
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.sent {
+  background-color: #DCF8C6; /* Light green, typical for sent messages */
+  margin-left: auto; /* Align to the right */
+}
+
+.received {
+  background-color: #ECECEC; /* Light grey, typical for received messages */
+}
+
+.message-time {
+  font-size: 0.8rem;
+  text-align: right;
+}

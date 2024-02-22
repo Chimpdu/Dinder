@@ -1,0 +1,17 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "Final project for AWA",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "front_end": "npm start --prefix front_end",
+    "server": "npm start --prefix server",
+    "dev": "concurrently \"npm run front_end\" \"npm run server\""
+  },
+  "author": "Yuxin Du",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
