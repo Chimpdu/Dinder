@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
-
+const WebSocket = require('ws');
 /**
  * Get port from environment and store in Express.
  */
@@ -20,6 +20,20 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+  ws.on('message', (message) => {
+    // Example of broadcasting a message to all clients except the sender
+    wss.clients.forEach((client) => {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        const dataToSend = JSON.stringify({ message: "Your message or data here" });
+        client.send(dataToSend); // Ensure you're sending a stringified JSON
+      }
+    });
+  });
+});
+
 
 /**
  * Listen on provided port, on all network interfaces.
