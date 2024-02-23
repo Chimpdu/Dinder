@@ -74,21 +74,21 @@ function Register() {
                                 <div className="row">
                                     <div className="input-field col s6">
                                         <input id="username" type="text" name="username" className="validate" required onChange={handleChange} value={userData.username || ''}/>
-                                        <label htmlFor="username">{t('Username*')}</label>
+                                        <label htmlFor="username">{t('Username')}*</label>
                                     </div>
                                     <div className="input-field col s6">
                                         <input id="password" type="password" name="password" className="validate" required onChange={handleChange} value={userData.password || ''}/>
-                                        <label htmlFor="password">{t('Password*')}</label>
+                                        <label htmlFor="password">{t('Password')}*</label>
                                     </div>
                                      {/* Nickname and Birthday on the same line */}
                                     <div className="row">
                                         <div className="input-field col s6">
                                             <input id="nickname" type="text" name="nickname" className="validate" required onChange={handleChange} value={userData.nickname || ''}/>
-                                            <label htmlFor="nickname">{t('Nickname*')}</label>
+                                            <label htmlFor="nickname">{t('Nickname')}*</label>
                                         </div>
                                         <div className="input-field col s6">
                                             <input id="birthday" type="date" name="birthday" className="validate" required onChange={handleChange} value={userData.birthday || ''}/>
-                                            <label htmlFor="birthday">{t('Birthday*')}</label>
+                                            <label htmlFor="birthday">{t('Birthday')}*</label>
                                         </div>
                                     </div>
                                     <div className="input-field col s6">
@@ -114,7 +114,7 @@ function Register() {
                                             <option value="female">{t('Female')}</option>
                                             <option value="other">{t('Other')}</option>
                                         </select>
-                                        <label>{t('Gender*')}</label>
+                                        <label>{t('Gender')}*</label>
                                     </div>
                                 </div>
                                 {/* Submit button */}
@@ -123,7 +123,7 @@ function Register() {
                                         <button type="submit" className="btn">{t('Submit')}</button>
                                     </div>
                                 </div>
-                                <div className="row"><p>Already have an account? <Link to="/login">{t('Login now')}</Link></p></div>
+                                <div className="row"><p>{t("Already have an account?")} <Link to="/login">{t('Login now')}</Link></p></div>
                             </form>
                         </div>
                     </div>

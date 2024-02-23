@@ -154,51 +154,51 @@ function Profile() {
                     <h4 className="center-align ">{nickname}'s Profile</h4>
                     <div className="card hoverable">
                     <div className="card-content">
-                        <span className="card-title deep-purple-text text-darken-2"><strong>Personal info</strong><i className="small material-icons edit-icon" onClick={() => setIsEditMode(true)}>border_color</i></span>
+                        <span className="card-title deep-purple-text text-darken-2"><strong>{t("Personal info")}</strong><i className="small material-icons edit-icon" onClick={() => setIsEditMode(true)}>border_color</i></span>
                         <div className="divider"></div>
                         {isEditMode ? (
                             <form onSubmit={handleSubmit}>
                                 <div className="row">
                                     <div className="input-field col s6">
                                         <input id="edit_nickname" type="text" name="nickname" className="validate" required value={formValues.nickname} onChange={handleInputChange} />
-                                        <label htmlFor="edit_nickname" className={formValues.nickname ? 'active' : ''}>Nickname</label>
+                                        <label htmlFor="edit_nickname" className={formValues.nickname ? 'active' : ''}>{t("Nickname")}</label>
                                     </div>
                                     <div className="input-field col s6">
                                         <input id="edit_birthday" type="date" name="birthday" className="validate" required value={formValues.birthday} onChange={handleInputChange} />
-                                        <label htmlFor="edit_birthday" className={formValues.birthday ? 'active' : ''}>Birthday</label>
+                                        <label htmlFor="edit_birthday" className={formValues.birthday ? 'active' : ''}>{t("Birthday")}</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className="input-field col s6">
                                             <input id="edit_hobby" type="text" name="hobby" className="validate" value={formValues.hobby} onChange={handleInputChange} />
-                                            <label htmlFor="edit_hobby" className={formValues.hobby ? 'active' : ''}>Hobby</label>
+                                            <label htmlFor="edit_hobby" className={formValues.hobby ? 'active' : ''}>{t("Hobby")}</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className="input-field col s12">
                                                 <input id="edit_intro" type="text" name="intro" className="validate" value={formValues.intro} onChange={handleInputChange} />
-                                                <label htmlFor="edit_intro" className={formValues.intro ? 'active' : ''}>Intro</label>
+                                                <label htmlFor="edit_intro" className={formValues.intro ? 'active' : ''}>{t("Intro")}</label>
                                     </div>
                                 </div>
                                 <div className='row'>
                                     <div className="input-field col s12">
                                                 <input id="edit_description" type="text" name="description" className="validate" value={formValues.description} onChange={handleInputChange} />
-                                                <label htmlFor="edit_description" className={formValues.description ? 'active' : ''}>Description</label>
+                                                <label htmlFor="edit_description" className={formValues.description ? 'active' : ''}>{t("Description")}</label>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="input-field col s12">
                                         <select id="edit_gender" name="gender" className="validate" required value={formValues.gender} onChange={handleInputChange}>
-                                            <option value="" disabled>Choose your gender</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
+                                            <option value="" disabled>{t("Choose your gender")}</option>
+                                            <option value="male">{t("Male")}</option>
+                                            <option value="female">{t("Female")}</option>
+                                            <option value="other">{t("Other")}</option>
                                         </select>
-                                        <label htmlFor="edit_gender">Gender</label>
+                                        <label htmlFor="edit_gender">{t("Gender")}</label>
                                     </div>
                                 </div>
-                                <button  className="btn" onClick={(event)=>{handleCancle(event)}} style={{ marginRight: '10px' }}>Cancle</button>
-                                <button type="submit" className="btn">Submit</button>
+                                <button  className="btn" onClick={(event)=>{handleCancle(event)}} style={{ marginRight: '10px' }}>{t("Cancel")}</button>
+                                <button type="submit" className="btn">{t("Submit")}</button>
                             </form>
                         ) : (
                             <>
@@ -214,7 +214,7 @@ function Profile() {
                     </div>
                     <div className="card hoverable">
                     <div className="card-content">
-                        <span className="card-title deep-purple-text text-darken-2"><strong>Friends info</strong><i className="small material-icons edit-icon" onClick={() => setFriendEditMode(!friendEditMode)}>border_color</i></span>
+                        <span className="card-title deep-purple-text text-darken-2"><strong>{t("Friends info")}</strong><i className="small material-icons edit-icon" onClick={() => setFriendEditMode(!friendEditMode)}>border_color</i></span>
                         <div className="divider"></div>
                         {/* <p><strong>{t("You like")}:</strong> {likes || <><span>{t('Nothing specified, ')}</span> <Link to="/friends">search your friends now</Link></>}</p> */}
                         {renderLikesContent}

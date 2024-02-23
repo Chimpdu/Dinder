@@ -99,7 +99,7 @@ function Login() {
                                 <div className='row'>
                                     <label>
                                         <input type="checkbox" className="filled-in"  name='remember' checked={rememberMe} onChange={(event)=>{handleChange(event)}}/>
-                                        <span>Remember me?</span>
+                                        <span>{t("Remember me?")}</span>
                                     </label>
                                 </div>
                                 {/* Add a submit button */}
@@ -108,7 +108,7 @@ function Login() {
                                         <button type="submit" className="btn">{t('Submit')}</button>
                                     </div>
                                 </div>
-                                <div className="row"><p>No Account yet? <Link to="/register">{t('Register now')}</Link></p></div>
+                                <div className="row"><p>{t("No Account yet?")} <Link to="/register">{t('Register now')}</Link></p></div>
                                 
                             </form>
                         </div>

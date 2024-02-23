@@ -1,15 +1,16 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false); // New state to track logout process
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Use useLocation hook to get the current location
 
   const logout = async () => {
-    setIsLoggingOut(true); // Indicate that logout process has started
+    setIsLoggingOut(true);
     try {
       await fetch('/api/api/logout', { method: 'POST', credentials: 'include' });
       setIsAuthenticated(false);
@@ -17,11 +18,11 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Error during logout:', error);
     }
-    setIsLoggingOut(false); // Reset logout process indicator
+    setIsLoggingOut(false);
   };
 
   const checkAuthStatus = async () => {
-    if (isLoggingOut) return; // Skip check if logout process is initiated
+    if (isLoggingOut || location.pathname === '/register') return; // Do not redirect if on the register page
 
     try {
       const response = await fetch('/api/api/auth', { /* existing fetch options */ });
@@ -34,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => { checkAuthStatus(); }, [navigate]);
+  useEffect(() => { checkAuthStatus(); }, [navigate, location.pathname]); // Add location.pathname as a dependency
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, checkAuthStatus, logout }}>

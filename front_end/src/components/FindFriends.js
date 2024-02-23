@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import Error from "./Error";
-
+import { useTranslation } from 'react-i18next';
+import { LanguageContext } from '../LanguageContext';
+import { useContext } from "react";
 function FindFriends() {
     const [users, setUsers] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(-1);
     const [errors, setErrors] = useState([]);
-
+    const { t, i18n } = useTranslation();
+    const { language } = useContext(LanguageContext);
+    useEffect(() => {
+        i18n.changeLanguage(language);
+    }, [language, i18n]);
     // Fetch a new user
     const fetchNewUser = async () => {
         try {
@@ -68,7 +74,7 @@ function FindFriends() {
             <div>
                 {users[currentIndex] ? (
                     <div>
-                        <h2>Meet {users[currentIndex].nickname}</h2>
+                        <h2>{t("Meet")} {users[currentIndex].nickname}</h2>
                         <div className="container">
                             
                             <div className="card hoverable" style={{ backgroundColor: '#F78FA7' }}>
@@ -76,11 +82,11 @@ function FindFriends() {
                                     <span className="card-title deep-purple-text text-darken-2"><strong>{users[currentIndex].intro}</strong></span>
                                     <div className="divider"></div>
                                     <div className="row">
-                                        <p><strong>About {users[currentIndex].nickname}:</strong></p>
+                                        <p><strong>{t("About")} {users[currentIndex].nickname}:</strong></p>
                                         <p>{users[currentIndex].description}</p>
-                                        <p>My gender is {users[currentIndex].gender}</p>
-                                        <p>I was born on {new Date(users[currentIndex].birthday).toLocaleDateString()}</p>
-                                        <p>My hobby is {users[currentIndex].hobby}</p>
+                                        <p>{t("My gender is ")}{users[currentIndex].gender}</p>
+                                        <p>{t("I was born on ")}{new Date(users[currentIndex].birthday).toLocaleDateString()}</p>
+                                        <p>{t("My hobby is ")}{users[currentIndex].hobby}</p>
                                         <button className="btn red heart-btn" onClick={handleLike}>
                                             <i className="material-icons">favorite</i>
                                         </button>
@@ -92,8 +98,8 @@ function FindFriends() {
                 ) : (
                     <p>No user to display</p>
                 )}
-                <button className="btn" onClick={handlePrevious} disabled={currentIndex <= 0} style={{ marginRight: '10px' }}>Previous</button>
-                <button className="btn" onClick={handleNext}>Next</button>
+                <button className="btn" onClick={handlePrevious} disabled={currentIndex <= 0} style={{ marginRight: '10px' }}>{t("Previous")}</button>
+                <button className="btn" onClick={handleNext}>{t("Next")}</button>
 
             </div>
         </>

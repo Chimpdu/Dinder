@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Error from './Error';
-
+import { useTranslation } from 'react-i18next';
+import { LanguageContext } from '../LanguageContext';
+import { useContext } from "react";
 function MessageWindow({ selectedUser }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [senderId, setSenderId] = useState(null);
   const [error, setError] = useState('');
+  const { t, i18n } = useTranslation();
+  const { language } = useContext(LanguageContext);
   const ws = useRef(null);
 
+  useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language, i18n]);
   // Fetch user information and set senderId
   useEffect(() => {
     const fetchSenderInfo = async () => {
@@ -117,7 +124,7 @@ function MessageWindow({ selectedUser }) {
   return (
     <div className="message-window">
       <div className="message-title">
-        <h4>Messaging to {selectedUser.username}</h4>
+        <h4>{t("Messaging to ")}{selectedUser.username}</h4>
       </div>
       <Error error={error} />
       <div className="message-display">
@@ -130,7 +137,7 @@ function MessageWindow({ selectedUser }) {
       </div>
       <div className="message-input">
         <textarea value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage}>{t("Send")}</button>
       </div>
     </div>
   );
