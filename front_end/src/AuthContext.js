@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       const response = await fetch('/api/api/auth', { /* existing fetch options */ });
       const data = await response.json();
       setIsAuthenticated(data.isAuthenticated);
-      if (!data.isAuthenticated) navigate('/login');
+      if (!data.isAuthenticated) navigate('/login');  //Redirect all pages to login except register page when not authenticated
     } catch (error) {
       console.error('Error checking auth status:', error);
       setIsAuthenticated(false);

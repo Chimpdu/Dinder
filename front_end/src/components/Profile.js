@@ -202,12 +202,12 @@ function Profile() {
                             </form>
                         ) : (
                             <>
-                                <p><strong>Nickname:</strong> {nickname}</p>
-                                <p><strong>Gender:</strong> {gender}</p>
-                                <p><strong>Birthday:</strong> {formattedBirthday}</p>
-                                <p><strong>Hobby:</strong> {hobby}</p>
-                                <p><strong>Intro:</strong> {intro}</p>
-                                <p><strong>Description:</strong> {description}</p>
+                                <p><strong>{t("Nickname")}:</strong> {nickname}</p>
+                                <p><strong>{t("Gender")}:</strong> {gender}</p>
+                                <p><strong>{t("Birthday")}:</strong> {formattedBirthday}</p>
+                                <p><strong>{t("Hobby")}:</strong> {hobby}</p>
+                                <p><strong>{t("Intro")}:</strong> {intro}</p>
+                                <p><strong>{t("Description")}:</strong> {description}</p>
                             </>
                         )}
                     </div>

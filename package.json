@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "front_end": "npm start --prefix front_end",
     "server": "npm start --prefix server",
-    "dev": "concurrently \"npm run front_end\" \"npm run server\""
+    "dev": "concurrently \"npm run front_end\" \"npm run server\"",
+    "start:prod": "npm run start:prod --prefix server",
+    "start": "npm start --prefix server"
   },
   "author": "Yuxin Du",
   "license": "MIT",

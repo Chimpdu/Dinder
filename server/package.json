@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "start:prod": "cross-env NODE_ENV=production node app.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,5 +20,8 @@
     "morgan": "~1.9.1",
     "nodemon": "^3.0.3",
     "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

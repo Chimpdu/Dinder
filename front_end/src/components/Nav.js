@@ -20,7 +20,7 @@ function Nav() {
       // Use the Fetch API for the POST request
       const response = await fetch('/api/users/logout', {
         method: 'POST',
-        credentials: 'include', // Needed for cookies to be sent and received
+        credentials: 'include', // Needed for HttpOnly cookies to be sent and received
         headers: {
           'Content-Type': 'application/json',
         },

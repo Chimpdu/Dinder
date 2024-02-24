@@ -30,6 +30,7 @@ router.get('/:userId/:contactId', verifyToken, async (req, res, next) => {
     res.status(400).json({ error: error.message });
   }
 });
+/* This feature was not implemented, ran out of time... */
 router.patch('/read/:userId/:contactId', verifyToken, async (req, res, next) => {
   try {
     const { userId, contactId } = req.params;
