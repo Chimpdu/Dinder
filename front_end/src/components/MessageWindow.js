@@ -3,6 +3,7 @@ import Error from './Error';
 import { useTranslation } from 'react-i18next';
 import { LanguageContext } from '../LanguageContext';
 import { useContext } from "react";
+
 function MessageWindow({ selectedUser }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -15,6 +16,7 @@ function MessageWindow({ selectedUser }) {
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language, i18n]);
+
   // Fetch user information and set senderId
   useEffect(() => {
     const fetchSenderInfo = async () => {
@@ -36,65 +38,53 @@ function MessageWindow({ selectedUser }) {
     fetchSenderInfo();
   }, []);
 
-  // Initialize WebSocket connection
+  // Initialize WebSocket connection when senderId is set
   useEffect(() => {
-    ws.current = new WebSocket('ws://localhost:8000');
-  
-    ws.current.onmessage = (e) => {
-      if (typeof e.data === "string") {
-        // Data is a string, parse it as JSON
+    if (senderId) {
+      ws.current = new WebSocket(`ws://localhost:8000/?id=${senderId}`);
+    
+      ws.current.onmessage = (e) => {
         const message = JSON.parse(e.data);
-        setMessages((prevMessages) => [...prevMessages, message]);
-      } else if (e.data instanceof Blob) {
-        // Data is a Blob, read and then parse it
-        const reader = new FileReader();
-        reader.onload = () => {
-          try {
-            const message = JSON.parse(reader.result);
-            setMessages((prevMessages) => [...prevMessages, message]);
-          } catch (error) {
-            console.error("Error parsing message:", error);
-          }
-        };
-        reader.readAsText(e.data); // Read the Blob as text
-      }
-    };
-  
-    return () => {
-      ws.current.close();
-    };
-  }, []);
-  
+        if (message.sender === selectedUser.id || message.receiver === selectedUser.id) {
+          setMessages(prev => [...prev, message]);
+        }
+      };
+
+      return () => {
+        ws.current.close();
+      };
+    }
+  }, [senderId, selectedUser.id]);
 
   // Fetch messages for the selected user
   useEffect(() => {
-    const fetchMessages = async () => {
-      if (!senderId || !selectedUser) return;
+    if (senderId && selectedUser) {
+      const fetchMessages = async () => {
+        try {
+          const response = await fetch(`/api/message/${senderId}/${selectedUser.id}`, {
+            credentials: 'include',
+            method: 'GET',
+          });
+          if (!response.ok) throw new Error('Failed to fetch messages');
+          const data = await response.json();
+          setMessages(data);
+        } catch (error) {
+          console.error(error);
+          setError(error.message);
+        }
+      };
 
-      try {
-        const response = await fetch(`/api/message/${senderId}/${selectedUser.id}`, {
-          credentials: 'include',
-          method: 'GET',
-        });
-        if (!response.ok) throw new Error('Failed to fetch messages');
-        const data = await response.json();
-        setMessages(data);
-      } catch (error) {
-        console.error(error);
-        setError(error.message);
-      }
-    };
-
-    fetchMessages();
+      fetchMessages();
+    }
   }, [selectedUser, senderId]);
 
   // Function to send a new message
   const sendMessage = async () => {
-    if (!newMessage.trim()) return; // Prevent sending empty messages
+    if (!newMessage.trim()) return;
   
+    const message = { sender: senderId, receiver: selectedUser.id, content: newMessage, createdAt: new Date().toISOString() };
+
     try {
-      const message = { sender: senderId, receiver: selectedUser.id, content: newMessage };
-  
       // Save message to the database
       const response = await fetch('/api/message', {
         method: 'POST',
@@ -104,22 +94,21 @@ function MessageWindow({ selectedUser }) {
       });
       if (!response.ok) throw new Error('Failed to send message');
       const savedMessage = await response.json();
-  
-      // Add the new message to the messages array immediately for the sender
-      setMessages((prevMessages) => [...prevMessages, savedMessage]);
-  
-      // Send message over WebSocket
+
+      // Add the new message to the messages array immediately for instant UI update
+      setMessages(prevMessages => [...prevMessages, savedMessage]);
+
+      // Send message over WebSocket for real-time communication
       if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-        ws.current.send(JSON.stringify(savedMessage));
+        ws.current.send(JSON.stringify(message));
       }
-  
+
       setNewMessage('');
     } catch (error) {
       console.error(error);
       setError('Failed to send message');
     }
   };
-  
 
   return (
     <div className="message-window">
