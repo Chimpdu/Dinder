@@ -24,9 +24,9 @@ app.use(cookieParser());
 /* app.use(express.static(path.join(__dirname, 'public'))); */
 /* 
 app.use('/', indexRouter); */
-app.use('/users', usersRouter);
-app.use('/api', apiRouter);
-app.use('/message', messageRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/api', apiRouter);
+app.use('/api/message', messageRouter);
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.resolve("..", "front_end", "build")));
     app.get("*", (req, res) => {
