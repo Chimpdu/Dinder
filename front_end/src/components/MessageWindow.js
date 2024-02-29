@@ -6,13 +6,22 @@ import { useContext } from "react";
 
 function MessageWindow({ selectedUser }) {
   const [messages, setMessages] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [newMessage, setNewMessage] = useState('');
   const [senderId, setSenderId] = useState(null);
   const [error, setError] = useState('');
   const { t, i18n } = useTranslation();
   const { language } = useContext(LanguageContext);
   const ws = useRef(null);
+  // Function to handle search term input change
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
+  // Filter messages based on the search term
+  const filteredMessages = messages.filter(message =>
+    message.content.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language, i18n]);
@@ -111,22 +120,68 @@ function MessageWindow({ selectedUser }) {
   };
 
   return (
-    <div className="message-window">
-      <div className="message-title">
-        <h4>{t("Messaging to ")}{selectedUser.username}</h4>
-      </div>
+    <div className="chat-container">
+      <h4>{t("Messaging to ")}{selectedUser.username}</h4>
       <Error error={error} />
-      <div className="message-display">
-        {messages.map((message, index) => (
-          <div key={index} className={`message ${message.sender === senderId ? 'sent' : 'received'}`}>
-            {message.content}
-            <div className="message-time">{new Date(message.createdAt).toLocaleTimeString()}</div>
-          </div>
-        ))}
+      
+      {/* Search input */}
+      <div className="row">
+        <div className="input-field col s12">
+          <input
+            id="search"
+            type="text"
+            className="validate"
+            placeholder={t("Search messages...")}
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <label htmlFor="search" className="active">{t("Search messages...")}</label>
+        </div>
       </div>
-      <div className="message-input">
-        <textarea value={newMessage} onChange={(e) => setNewMessage(e.target.value)} />
-        <button onClick={sendMessage}>{t("Send")}</button>
+
+      {/* Render filtered messages */}
+      {searchTerm && (
+        <>
+          {filteredMessages.map((message, index) => (
+            <div key={index} className={`message-row ${message.sender === senderId ? 'sender' : 'receiver'}`}>
+              <div className="card-content black-text">
+                <p>{message.content}</p>
+                <div className="message-time">
+                  {new Date(message.createdAt).toLocaleTimeString()}
+                </div>
+              </div>
+            </div>
+          ))}
+          <div className="divider" ></div>
+        </>
+      )}
+
+      {/* Render all messages */}
+      {messages.map((message, index) => (
+        <div key={index} className={`message-row ${message.sender === senderId ? 'sender' : 'receiver'}`}>
+          <div className="card-content black-text">
+            <p>{message.content}</p>
+            <div className="message-time" style={{fontSize: '0.8rem'}}>
+              {new Date(message.createdAt).toLocaleTimeString()}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div className="row">
+        <div className="input-field col s12">
+          <textarea
+            id="new_message"
+            className="materialize-textarea"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          ></textarea>
+          <label htmlFor="new_message">{t("Type your message here...")}</label>
+        </div>
+        <button className="btn waves-effect waves-light blue" onClick={sendMessage}>
+          {t("Send")}
+          <i className="material-icons right">send</i>
+        </button>
       </div>
     </div>
   );

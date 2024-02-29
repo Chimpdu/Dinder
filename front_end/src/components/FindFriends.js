@@ -3,9 +3,11 @@ import Error from "./Error";
 import { useTranslation } from 'react-i18next';
 import { LanguageContext } from '../LanguageContext';
 import { useContext } from "react";
+import { useSwipeable } from "react-swipeable";
 function FindFriends() {
     const [users, setUsers] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(-1);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
     const [errors, setErrors] = useState([]);
     const { t, i18n } = useTranslation();
     const { language } = useContext(LanguageContext);
@@ -13,6 +15,11 @@ function FindFriends() {
         i18n.changeLanguage(language);
     }, [language, i18n]);
     // Fetch a new user
+    const likeSwipeHandlers = useSwipeable({
+        onSwipedRight: () => handleLike(),
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true // This allows for swipe gestures to be recognized on desktop for testing purposes.
+    });
     const fetchNewUser = async () => {
         try {
             const response = await fetch('/api/api/find_friend', { credentials: 'include' });
@@ -73,24 +80,30 @@ function FindFriends() {
             {errors.length > 0 && errors.map((error, index) => <Error key={index} error={error} />)}
             <div>
                 {users[currentIndex] ? (
-                    <div>
+                    <div  className="container">
                         <h2>{t("Meet")} {users[currentIndex].nickname}</h2>
-                        <div className="container">
-                            
-                            <div className="card hoverable" style={{ backgroundColor: '#F78FA7' }}>
-                                <div className="card-content"style={{ fontSize: '18px', lineHeight: '2.5', color: 'white'}}>
-                                    <span className="card-title deep-purple-text text-darken-2"><strong>{users[currentIndex].intro}</strong></span>
-                                    <div className="divider"></div>
-                                    <div className="row">
-                                        <p><strong>{t("About")} {users[currentIndex].nickname}:</strong></p>
-                                        <p>{users[currentIndex].description}</p>
+                        <div className="card hoverable" style={{ backgroundColor: '#F78FA7' }}>
+                            <div className="card-content" style={{ fontSize: '18px', lineHeight: '2.5', color: 'white' }}>
+                                <span className="card-title deep-purple-text text-darken-2"><strong>{users[currentIndex].intro}</strong></span>
+                                <div className="divider"></div>
+                                <div className="row">
+                                    {/* User details */}
+                                    <p><strong>{t("About")} {users[currentIndex].nickname}:</strong></p>
+                                    <p>{users[currentIndex].description}</p>
                                         <p>{t("My gender is ")}{users[currentIndex].gender}</p>
                                         <p>{t("I was born on ")}{new Date(users[currentIndex].birthday).toLocaleDateString()}</p>
                                         <p>{t("My hobby is ")}{users[currentIndex].hobby}</p>
-                                        <button className="btn red heart-btn" onClick={handleLike}>
-                                            <i className="material-icons">favorite</i>
-                                        </button>
-                                    </div>
+                                        {isMobile ? (
+                                <div {...likeSwipeHandlers} className="like-area" style={{ padding: '10px', border: '1px solid #fff', borderRadius: '5px', textAlign: 'center', backgroundColor: "red", color:"white", borderRadius: "10px" }}>
+                                    Swipe Right to Like>>>
+                                </div>
+                            ) : (
+                                <button className="btn waves-effect waves-light btn-danger" onClick={handleLike} style={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+                                    <i className="material-icons" style={{color: "red"}}>favorite</i>
+                                </button>
+                            )}
+
+                                    
                                 </div>
                             </div>
                         </div>
@@ -100,7 +113,6 @@ function FindFriends() {
                 )}
                 <button className="btn" onClick={handlePrevious} disabled={currentIndex <= 0} style={{ marginRight: '10px' }}>{t("Previous")}</button>
                 <button className="btn" onClick={handleNext}>{t("Next")}</button>
-
             </div>
         </>
     );

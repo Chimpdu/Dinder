@@ -67,7 +67,7 @@ code {
   background-color: rgb(247, 143, 167);
   color: white;
   flex: 4;
-  min-height: 100vh;
+  min-height: 93vh;;
   border-right: 1px solid #ddd;
   border-left: 1px solid #ddd;
   overflow-y: auto;
@@ -138,23 +138,58 @@ code {
   margin: 0 5px;
 }
 .message {
-  padding: 5px 10px;
-  margin: 5px;
-  border-radius: 10px;
-  max-width: 70%;
-  word-wrap: break-word;
+  padding: 5px 10px; /* Slight padding around the message text */
+  margin: 5px 0; /* Spacing between messages */
+  border-radius: 10px; /* Rounded corners for a softer look */
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  max-width: 70%; /* Limiting message width for better readability */
 }
 
-.sent {
-  background-color: #DCF8C6; /* Light green, typical for sent messages */
-  margin-left: auto; /* Align to the right */
+.sender, .receiver {
+  padding: 10px; /* Padding inside the message bubble */
+  border-radius: 20px; /* More pronounced rounded corners for the message bubble */
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+  word-wrap: break-word; /* Prevent text overflow */
 }
 
-.received {
-  background-color: #ECECEC; /* Light grey, typical for received messages */
+.sender {
+  background-color: #DCF8C6; /* Soft green for sent messages */
+  margin-left: auto; /* Align sent messages to the right */
+  align-self: flex-end; /* Ensure the bubble aligns to the edge */
+}
+
+.receiver {
+  background-color: #ECECEC; /* Soft grey for received messages */
+  margin-right: auto; /* Align received messages to the left */
+  align-self: flex-start; /* Ensure the bubble aligns to the edge */
 }
 
 .message-time {
-  font-size: 0.8rem;
-  text-align: right;
+  font-size: 0.8rem; /* Smaller font size for timestamps */
+  text-align: right; /* Align timestamps to the right */
+  margin-top: 5px; /* Space between the message text and the timestamp */
+  color: #666; /* Dimmed color for less emphasis */
+}
+
+.message-row {
+  display: flex;
+  margin-bottom: 10px; /* Spacing between each message bubble */
+  flex-direction: column; /* Stack messages vertically */
+}
+
+/* Additional styling for better chat UI feel */
+.chat-container {
+  padding: 10px; /* Padding around the chat container */
+  background: #f9f9f9; /* Light background for the chat area */
+  border-radius: 5px; /* Rounded corners for the chat container */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  height: 93vh; /* Fixed height for the chat area */
+  overflow-y: auto; /* Allow scrolling for overflow content */
+}
+.divider {
+  height: 2px; /* Increase the height for a thicker divider */
+  background-color: #007bff; /* Use a more noticeable color, e.g., a shade of blue */
+  margin: 20px 0; /* Add some vertical space around the divider */
+  border-radius: 1px; /* Optional: rounded corners for a smoother look */
 }
